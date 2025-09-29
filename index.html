@@ -34,6 +34,55 @@
       <p>• <strong>Auto-rotate:</strong> Tekan 'R'</p>
     </div>
 
+    <!-- Planet Info Panel -->
+    <div id="infoOverlay"></div>
+    <div id="planetInfoPanel">
+      <div class="planet-header">
+        <div class="planet-icon" id="planetIcon">🌞</div>
+        <div class="planet-title">
+          <h2 class="planet-name" id="planetName">Matahari</h2>
+          <div class="planet-latin" id="planetLatin">Sol</div>
+        </div>
+        <button class="close-btn" id="closeInfoPanel">×</button>
+      </div>
+
+      <div class="planet-stats">
+        <div class="stat-item">
+          <div class="stat-label">Jarak dari Matahari</div>
+          <div class="stat-value" id="planetDistance">0 km</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Diameter</div>
+          <div class="stat-value" id="planetDiameter">0 km</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Massa</div>
+          <div class="stat-value" id="planetMass">0 kg</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Gravitasi</div>
+          <div class="stat-value" id="planetGravity">0 m/s²</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Periode Orbit</div>
+          <div class="stat-value" id="planetOrbitPeriod">0 hari</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Periode Rotasi</div>
+          <div class="stat-value" id="planetRotationPeriod">0 jam</div>
+        </div>
+      </div>
+
+      <div class="planet-description" id="planetDescription">
+        Deskripsi planet akan ditampilkan di sini.
+      </div>
+
+      <div class="fun-fact">
+        <div class="fun-fact-title"><span>💡</span> Fakta Menarik</div>
+        <div id="planetFunFact">Fakta menarik tentang planet...</div>
+      </div>
+    </div>
+
     <script type="module" src="js/main.js"></script>
   </body>
 </html>

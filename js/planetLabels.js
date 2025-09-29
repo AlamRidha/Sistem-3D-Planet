@@ -1,9 +1,10 @@
 import * as THREE from "three";
 
 export class PlanetLabels {
-  constructor(camera, renderer) {
+  constructor(camera, renderer, planetInfoSystem) {
     this.camera = camera;
     this.renderer = renderer;
+    this.planetInfoSystem = planetInfoSystem;
     this.labels = new Map();
     this.labelContainer = document.createElement("div");
     this.labelContainer.style.cssText = `
@@ -22,21 +23,72 @@ export class PlanetLabels {
     label.setAttribute("data-planet", name);
     label.textContent = this.formatPlanetName(name);
 
+    // Enable pointer events untuk label
+    label.style.pointerEvents = "auto";
+    label.style.cursor = "pointer";
+
+    // Add click event listener
+    label.addEventListener("click", (e) => {
+      e.stopPropagation();
+      console.log(`🏷️ Label clicked: ${name}`);
+      this.planetInfoSystem.showPlanetInfo(name);
+
+      // Add visual feedback
+      this.highlightLabel(label);
+    });
+
+    // Add hover effects
+    label.addEventListener("mouseenter", () => {
+      label.classList.add("pulse");
+    });
+
+    label.addEventListener("mouseleave", () => {
+      label.classList.remove("pulse");
+    });
+
     this.labelContainer.appendChild(label);
-    this.labels.set(planet, label);
+    this.labels.set(planet, { element: label, name: name });
+  }
+
+  highlightLabel(clickedLabel) {
+    // Remove highlight dari semua label
+    this.labels.forEach((labelData, planet) => {
+      labelData.element.style.transform =
+        labelData.element.style.transform.replace("scale(1.1)", "scale(1)");
+      labelData.element.style.background =
+        labelData.element.style.background.replace("0.5", "0.3");
+    });
+
+    // Highlight label yang diklik
+    const currentTransform = clickedLabel.style.transform;
+    const baseTransform = currentTransform.replace("scale(1.1)", "scale(1)");
+    clickedLabel.style.transform = baseTransform + " scale(1.1)";
+    clickedLabel.style.background = clickedLabel.style.background.replace(
+      "0.3",
+      "0.5"
+    );
+
+    // Reset setelah 1 detik
+    setTimeout(() => {
+      clickedLabel.style.transform = baseTransform;
+      clickedLabel.style.background = clickedLabel.style.background.replace(
+        "0.5",
+        "0.3"
+      );
+    }, 1000);
   }
 
   formatPlanetName(name) {
     const names = {
-      sun: "MATAHARI",
-      mercury: "MERKURIUS",
-      venus: "VENUS",
-      earth: "BUMI",
-      mars: "MARS",
-      jupiter: "JUPITER",
-      saturn: "SATURNUS",
-      uranus: "URANUS",
-      neptune: "NEPTUNUS",
+      sun: "MATAHARI 🌞",
+      mercury: "MERKURIUS 🪐",
+      venus: "VENUS ♀️",
+      earth: "BUMI 🌍",
+      mars: "MARS ♂️",
+      jupiter: "JUPITER ♃",
+      saturn: "SATURNUS ♄",
+      uranus: "URANUS ♅",
+      neptune: "NEPTUNUS ♆",
     };
     return names[name] || name.toUpperCase();
   }
@@ -63,7 +115,7 @@ export class PlanetLabels {
   updateLabelPositions() {
     const vector = new THREE.Vector3();
 
-    this.labels.forEach((label, planet) => {
+    this.labels.forEach((labelData, planet) => {
       // Get planet position in screen coordinates
       vector.setFromMatrixPosition(planet.matrixWorld);
       vector.project(this.camera);
@@ -73,18 +125,16 @@ export class PlanetLabels {
       const y =
         (-(vector.y * 0.5) + 0.5) * this.renderer.domElement.clientHeight;
 
-      // Update label position
-      label.style.transform = `translate(${x}px, ${y}px)`;
-      label.style.display = "block";
-
-      // Add offset to prevent overlapping with planet
-      label.style.transform += ` translate(-50%, -60px)`;
+      // Update label position dengan offset yang lebih baik
+      const baseTransform = `translate(${x}px, ${y}px) translate(-50%, -80px)`;
+      labelData.element.style.transform = baseTransform;
+      labelData.element.style.display = "block";
     });
   }
 
   setLabelsVisibility(visible) {
-    this.labels.forEach((label) => {
-      label.style.display = visible ? "block" : "none";
+    this.labels.forEach((labelData) => {
+      labelData.element.style.display = visible ? "block" : "none";
     });
   }
 }

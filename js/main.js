@@ -3,6 +3,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { createPlanets } from "./planets.js";
 import { OrbitLines } from "./orbitLines.js";
 import { PlanetLabels } from "./planetLabels.js";
+import { PlanetInfoSystem } from "./planetInfo.js";
 
 // Progress tracking
 let loadedTextures = 0;
@@ -24,14 +25,14 @@ async function init() {
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x000011);
 
-  // Camera
+  // Camera - SESUAIKAN untuk ukuran yang lebih besar
   const camera = new THREE.PerspectiveCamera(
-    75,
+    60, // Lebar field of view untuk melihat lebih banyak
     window.innerWidth / window.innerHeight,
     0.1,
-    2000
+    5000 // Perbesar far plane
   );
-  camera.position.set(0, 50, 120);
+  camera.position.set(0, 80, 200); // Posisi awal yang lebih jauh
 
   // Renderer
   const renderer = new THREE.WebGLRenderer({
@@ -42,47 +43,125 @@ async function init() {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.2;
+  renderer.toneMappingExposure = 1.3; // Sedikit lebih terang
 
   document.getElementById("container3D").appendChild(renderer.domElement);
 
-  // Enhanced Lighting System
-  const ambientLight = new THREE.AmbientLight(0x404040, 0.4);
+  // Enhanced Lighting System - LEBIH BANYAK LIGHT
+  const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
   scene.add(ambientLight);
 
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-  directionalLight.position.set(50, 50, 50);
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
+  directionalLight.position.set(100, 100, 100);
   scene.add(directionalLight);
 
-  const hemisphereLight = new THREE.HemisphereLight(0x443333, 0x111122, 0.6);
+  const hemisphereLight = new THREE.HemisphereLight(0x443333, 0x111122, 0.8);
   scene.add(hemisphereLight);
 
-  // Orbit Controls dengan auto-rotate
+  // Orbit Controls - SESUAIKAN untuk ukuran besar
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.dampingFactor = 0.05;
-  controls.minDistance = 20;
-  controls.maxDistance = 500;
+  controls.minDistance = 30; // Bisa zoom lebih dekat
+  controls.maxDistance = 1000; // Bisa zoom lebih jauh
   controls.autoRotate = true;
-  controls.autoRotateSpeed = 0.5;
+  controls.autoRotateSpeed = 0.3;
+
+  // Create planet info system
+  const planetInfoSystem = new PlanetInfoSystem();
+  planetInfoSystem.setupEventListeners();
 
   // Create orbit lines system
   const orbitLines = new OrbitLines(scene);
 
-  // Create planet labels system
-  const planetLabels = new PlanetLabels(camera, renderer);
+  // Create planet labels system - PASS planetInfoSystem
+  const planetLabels = new PlanetLabels(camera, renderer, planetInfoSystem);
 
   // Create solar system
   console.log("🌌 Creating solar system...");
   const solarSystem = await createPlanets(scene, updateProgress);
 
-  // ✅ PERBAIKAN: Gunakan planetData yang sudah disimpan
+  // Create orbit lines for planets
   const planetData = solarSystem.planets.map((p) => ({
     name: p.name,
-    distance: p.data.distance, // ✅ Sekarang p.data ada
+    distance: p.data.distance,
   }));
-
   orbitLines.createOrbitLines(planetData);
+
+  // Raycaster untuk click detection pada planet
+  const raycaster = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
+
+  function onPlanetClick(event) {
+    // Calculate mouse position
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    // Update the raycaster
+    raycaster.setFromCamera(mouse, camera);
+
+    // Check intersections dengan planet dan sun
+    const planetMeshes = solarSystem.planets.map((p) => p.mesh);
+    const allMeshes = [...planetMeshes, solarSystem.sun];
+
+    const intersects = raycaster.intersectObjects(allMeshes, true);
+
+    if (intersects.length > 0) {
+      const clickedObject = intersects[0].object;
+      let planetName = "sun";
+
+      // Cari planet mana yang diklik
+      solarSystem.planets.forEach((planet) => {
+        if (
+          planet.mesh === clickedObject ||
+          planet.mesh.children.includes(clickedObject) ||
+          (planet.mesh === saturn && clickedObject === saturnRing)
+        ) {
+          planetName = planet.name;
+        }
+      });
+
+      // Jika sun diklik langsung
+      if (
+        clickedObject === solarSystem.sun ||
+        solarSystem.sun.children.includes(clickedObject)
+      ) {
+        planetName = "sun";
+      }
+
+      console.log(`🪐 Planet clicked: ${planetName}`);
+      planetInfoSystem.showPlanetInfo(planetName);
+      highlightPlanet(planetName);
+    }
+  }
+
+  function highlightPlanet(planetName) {
+    // Reset semua material
+    solarSystem.planets.forEach((planet) => {
+      if (planet.mesh.material.emissive) {
+        planet.mesh.material.emissive.setHex(0x000000);
+      }
+    });
+
+    if (solarSystem.sun.material.emissive) {
+      solarSystem.sun.material.emissive.setHex(0x000000);
+    }
+
+    // Highlight planet yang diklik
+    if (planetName === "sun") {
+      if (solarSystem.sun.material.emissive) {
+        solarSystem.sun.material.emissive.setHex(0x333300);
+      }
+    } else {
+      const planet = solarSystem.planets.find((p) => p.name === planetName);
+      if (planet && planet.mesh.material.emissive) {
+        planet.mesh.material.emissive.setHex(0x222222);
+      }
+    }
+  }
+
+  // Add click event listener untuk planet
+  window.addEventListener("click", onPlanetClick);
 
   // Hide loading screen
   setTimeout(() => {
@@ -115,6 +194,10 @@ async function init() {
         planetLabels.setLabelsVisibility(!labelsVisible);
         console.log(`Labels: ${!labelsVisible ? "ON" : "OFF"}`);
         break;
+      case "i":
+        // Show info panel untuk testing
+        planetInfoSystem.showPlanetInfo("earth");
+        break;
     }
   });
 
@@ -124,12 +207,6 @@ async function init() {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
     planetLabels.updateLabelPositions();
-  });
-
-  // Click event for planet info
-  window.addEventListener("click", (event) => {
-    // Implement planet click info here
-    console.log("Planet clicked - Add your info panel logic here");
   });
 
   // Animation loop
@@ -148,11 +225,15 @@ async function init() {
 
   animate();
 
-  console.log("🚀 Solar System Ready!");
-  console.log("🎮 Controls:");
+  console.log("🚀 SOLAR SYSTEM READY - EPIC SIZE!");
+  console.log("🎮 CONTROLS:");
   console.log("   • R - Toggle auto-rotate");
   console.log("   • O - Toggle orbit lines");
   console.log("   • L - Toggle labels");
+  console.log("   • I - Show info panel (test)");
+  console.log("   • CLICK PLANET - Show detailed info");
+  console.log("   • CLICK LABEL - Show detailed info");
+  console.log("   • ESC - Close info panel");
   console.log("   • Mouse drag - Rotate camera");
   console.log("   • Scroll - Zoom in/out");
 }
