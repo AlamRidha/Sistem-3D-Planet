@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tata Surya 3D - Presentasi Interaktif</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen">
+      <h1 class="loading-title">🌌 SISTEM TATA SURYA</h1>
+      <p class="loading-subtitle">Memuat alam semesta yang menakjubkan...</p>
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <p id="loadingText" style="margin-top: 15px; color: #a0a0ff">
+        Menginisialisasi...
+      </p>
+    </div>
+
+    <!-- Main 3D Container -->
+    <div id="container3D"></div>
+
+    <!-- Title -->
+    <div id="title">SISTEM TATA SURYA 3D</div>
+
+    <!-- Controls Info -->
+    <div id="controlsInfo">
+      <h3>🎮 Kontrol Interaktif</h3>
+      <p>• <strong>Mouse Drag:</strong> Putar kamera</p>
+      <p>• <strong>Scroll Wheel:</strong> Zoom in/out</p>
+      <p>• <strong>Klik Planet:</strong> Lihat informasi</p>
+      <p>• <strong>Auto-rotate:</strong> Tekan 'R'</p>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
