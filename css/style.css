@@ -215,7 +215,7 @@ body {
 /* Controls Info */
 #controlsInfo {
   position: absolute;
-  bottom: 20px;
+  bottom: 320px;
   left: 20px;
   background: rgba(0, 0, 0, 0.7);
   color: white;
@@ -225,6 +225,7 @@ body {
   line-height: 1.4;
   border: 1px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
+  max-width: 250px;
 }
 
 #controlsInfo h3 {
@@ -235,19 +236,506 @@ body {
 /* Title */
 #title {
   position: absolute;
-  top: 20px;
+  top: 25px;
   left: 50%;
   transform: translateX(-50%);
   color: white;
-  font-size: 2.5em;
-  font-weight: bold;
+  font-size: 1.5em;
+  font-weight: 800;
   text-align: center;
-  background: linear-gradient(45deg, #ff6b6b, #ffd93d, #6bcf7f, #4d96ff);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  z-index: 100;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(
+    135deg,
+    #4fc3f7,
+    #29b6f6,
+    #03a9f4,
+    #0288d1,
+    #4fc3f7,
+    #29b6f6,
+    #03a9f4
+  );
+  background-size: 300% 300%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+  animation: titleGradient 6s ease infinite;
+  padding: 20px 50px;
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(3, 169, 244, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes titleGradient {
+  0%,
+  100% {
+    background-position: 0% 50%;
+    text-shadow: 0 0 20px rgba(79, 195, 247, 0.4),
+      0 0 40px rgba(41, 182, 246, 0.2);
+  }
+  50% {
+    background-position: 100% 50%;
+    text-shadow: 0 0 25px rgba(3, 169, 244, 0.6),
+      0 0 50px rgba(2, 136, 209, 0.3);
+  }
+}
+
+/* Subtitle untuk penjelasan */
+/* Subtitle yang lebih minimalis dan tidak mengganggu */
+#subtitle {
+  position: absolute;
+  top: 130px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #e3f2fd;
+  font-size: 1.3em;
+  font-weight: 400;
+  text-align: center;
+  z-index: 99;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  letter-spacing: 1.5px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 12px 30px;
+  border-radius: 25px;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  animation: subtitleSlide 8s ease-in-out infinite;
+  opacity: 0.9;
+}
+
+@keyframes subtitleSlide {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0px);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateX(-50%) translateY(-5px);
+    opacity: 1;
+  }
+}
+
+/* Interactive Hint - dipindah ke corner yang tidak mengganggu */
+#demoText {
+  position: absolute;
+  top: 180px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ffd54f;
+  font-size: 1.1em;
+  font-weight: 500;
+  text-align: center;
+  z-index: 99;
+  background: rgba(255, 213, 79, 0.1);
+  padding: 10px 25px;
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 213, 79, 0.3);
+  animation: demoHint 4s ease-in-out infinite;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+@keyframes demoHint {
+  0%,
+  100% {
+    opacity: 0.8;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.02);
+  }
+}
+
+/* Corner Info Box - untuk informasi tambahan di sudut */
+#cornerInfo {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #e3f2fd;
+  padding: 12px 20px;
+  border-radius: 15px;
+  font-size: 0.9em;
+  font-weight: 400;
+  z-index: 101;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+  line-height: 1.4;
+  animation: cornerFade 6s ease-in-out infinite;
+}
+
+@keyframes cornerFade {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: translateY(0px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+/* Navigation Guide - petunjuk navigasi di kiri atas */
+#navGuide {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #e3f2fd;
+  padding: 12px 20px;
+  border-radius: 15px;
+  font-size: 0.9em;
+  font-weight: 400;
+  z-index: 101;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  line-height: 1.4;
+  animation: navPulse 8s ease-in-out infinite;
+}
+
+@keyframes navPulse {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Elegant Divider antara title dan konten */
+.title-divider {
+  position: absolute;
+  top: 200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(79, 195, 247, 0.6),
+    rgba(41, 182, 246, 0.8),
+    rgba(79, 195, 247, 0.6),
+    transparent
+  );
+  z-index: 98;
+  animation: dividerGlow 3s ease-in-out infinite;
+}
+
+@keyframes dividerGlow {
+  0%,
+  100% {
+    opacity: 0.6;
+    width: 180px;
+  }
+  50% {
+    opacity: 1;
+    width: 220px;
+  }
+}
+
+/* Floating elements untuk depth */
+.floating-orb {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(79, 195, 247, 0.3) 0%,
+    rgba(41, 182, 246, 0.1) 50%,
+    transparent 70%
+  );
+  z-index: 95;
+  animation: floatOrb 15s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.floating-orb:nth-child(1) {
+  top: 10%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.floating-orb:nth-child(2) {
+  top: 15%;
+  right: 15%;
+  animation-delay: -5s;
+}
+
+.floating-orb:nth-child(3) {
+  bottom: 20%;
+  left: 20%;
+  animation-delay: -10s;
+}
+
+@keyframes floatOrb {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translate(20px, -20px) scale(1.1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(-15px, 15px) scale(0.9);
+    opacity: 0.4;
+  }
+  75% {
+    transform: translate(10px, 10px) scale(1.05);
+    opacity: 0.6;
+  }
+}
+
+/* Update Controls Info position agar tidak overlap */
+#controlsInfo {
+  position: absolute;
+  bottom: 320px;
+  left: 20px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #e3f2fd;
+  padding: 18px;
+  border-radius: 12px;
+  font-size: 0.85em;
+  line-height: 1.5;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  max-width: 260px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+#controlsInfo h3 {
+  margin-bottom: 12px;
+  color: #4fc3f7;
+  font-size: 1.1em;
+}
+
+/* Update Rotate Controls */
+#rotateControls {
+  position: absolute;
+  bottom: 120px;
+  left: 20px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #e3f2fd;
+  padding: 20px;
+  border-radius: 15px;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   z-index: 100;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+#rotateControls h3 {
+  margin-bottom: 15px;
+  color: #4fc3f7;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1em;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #title {
+    font-size: 2.2em;
+    padding: 15px 30px;
+    top: 20px;
+  }
+
+  #subtitle {
+    font-size: 1em;
+    top: 100px;
+    padding: 8px 20px;
+  }
+
+  #demoText {
+    font-size: 0.9em;
+    top: 140px;
+    padding: 8px 16px;
+  }
+
+  #cornerInfo,
+  #navGuide {
+    top: 15px;
+    padding: 8px 15px;
+    font-size: 0.8em;
+  }
+
+  .title-divider {
+    top: 150px;
+    width: 150px;
+  }
+
+  #controlsInfo,
+  #rotateControls {
+    left: 10px;
+    right: 10px;
+    max-width: none;
+  }
+
+  #controlsInfo {
+    bottom: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  #title {
+    font-size: 1.8em;
+    padding: 12px 25px;
+  }
+
+  #subtitle {
+    font-size: 0.9em;
+    top: 90px;
+  }
+
+  #demoText {
+    display: none; /* Sembunyikan di mobile sangat kecil */
+  }
+}
+
+/* Particles effect around title */
+.title-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  pointer-events: none;
+  z-index: 98;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #ff0080;
+  border-radius: 50%;
+  animation: particleFloat 6s infinite linear;
+  box-shadow: 0 0 10px #ff0080;
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Exhibition Badge */
+#exhibitionBadge {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  background: linear-gradient(135deg, #ff0080, #ff8c00);
+  color: white;
+  padding: 15px 25px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 1.2em;
+  z-index: 101;
+  transform: rotate(5deg);
+  animation: badgePulse 2s ease-in-out infinite;
+  box-shadow: 0 10px 30px rgba(255, 0, 128, 0.4);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+@keyframes badgePulse {
+  0%,
+  100% {
+    transform: rotate(5deg) scale(1);
+    box-shadow: 0 10px 30px rgba(255, 0, 128, 0.4);
+  }
+  50% {
+    transform: rotate(5deg) scale(1.05);
+    box-shadow: 0 15px 40px rgba(255, 0, 128, 0.6);
+  }
+}
+
+/* Interactive Demo Text */
+#demoText {
+  position: absolute;
+  top: 200px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ffd93d;
+  font-size: 1.3em;
+  font-weight: 600;
+  text-align: center;
+  z-index: 99;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 15px 30px;
+  border-radius: 35px;
+  backdrop-filter: blur(15px);
+  border: 2px solid #ffd93d;
+  animation: demoPulse 3s ease-in-out infinite;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  text-shadow: 0 0 10px rgba(255, 217, 61, 0.5);
+}
+
+@keyframes demoPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(255, 217, 61, 0.3);
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 217, 61, 0.6);
+    transform: translateX(-50%) scale(1.05);
+  }
+}
+
+/* Responsive Design untuk Title */
+@media (max-width: 768px) {
+  #title {
+    font-size: 2.5em;
+    padding: 15px 25px;
+    top: 15px;
+  }
+
+  #subtitle {
+    font-size: 1.1em;
+    top: 110px;
+    padding: 8px 20px;
+  }
+
+  #exhibitionBadge {
+    top: 20px;
+    right: 20px;
+    font-size: 1em;
+    padding: 10px 20px;
+  }
+
+  #demoText {
+    font-size: 1em;
+    top: 160px;
+    padding: 10px 20px;
+  }
 }
 
 /* Planet Info Panel */
@@ -475,4 +963,227 @@ body {
 #infoOverlay.active {
   opacity: 1;
   visibility: visible;
+}
+
+/* Rotate Controls */
+#rotateControls {
+  position: absolute;
+  bottom: 120px;
+  left: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 20px;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-family: "Arial", sans-serif;
+  z-index: 100;
+}
+
+#rotateControls h3 {
+  margin-bottom: 15px;
+  color: #ffd93d;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rotate-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.rotate-btn {
+  background: linear-gradient(135deg, #4d96ff, #6bcf7f);
+  border: none;
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  min-width: 80px;
+}
+
+.rotate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.rotate-btn:active {
+  transform: translateY(0);
+}
+
+.rotate-btn.stop {
+  background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+  grid-column: span 3;
+}
+
+.rotate-btn.slow {
+  background: linear-gradient(135deg, #6bcf7f, #4d96ff);
+}
+
+.rotate-btn.medium {
+  background: linear-gradient(135deg, #4d96ff, #6bcf7f);
+}
+
+.rotate-btn.fast {
+  background: linear-gradient(135deg, #ffd93d, #ff6b6b);
+}
+
+.rotate-btn.reverse {
+  background: linear-gradient(135deg, #9b59b6, #8e44ad);
+}
+
+.rotate-icon {
+  font-size: 20px;
+}
+
+.rotate-label {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+/* Speed Indicator */
+.speed-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.speed-text {
+  font-size: 14px;
+  color: #a0a0ff;
+}
+
+.speed-value {
+  font-weight: bold;
+  color: #ffd93d;
+  font-size: 16px;
+}
+
+/* Rotation Direction Indicator */
+.direction-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.direction-arrow {
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+
+.direction-arrow.reverse {
+  transform: scaleX(-1);
+}
+
+/* Auto Rotate Toggle */
+.auto-rotate-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 15px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.auto-rotate-toggle:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.toggle-switch {
+  width: 50px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.toggle-switch::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #ff6b6b;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  transition: all 0.3s ease;
+}
+
+.toggle-switch.active {
+  background: rgba(107, 207, 127, 0.3);
+}
+
+.toggle-switch.active::after {
+  background: #6bcf7f;
+  left: 28px;
+}
+
+/* Pause/Resume Button */
+.pause-resume-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #ffd93d, #ffa726);
+  border: none;
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pause-resume-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 217, 61, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #rotateControls {
+    bottom: 100px;
+    left: 10px;
+    right: 10px;
+    padding: 15px;
+  }
+
+  .rotate-buttons {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .rotate-btn.stop {
+    grid-column: span 2;
+  }
 }

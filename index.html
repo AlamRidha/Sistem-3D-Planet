@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tata Surya 3D - Presentasi Interaktif</title>
+    <link rel="icon" href="models/logo.png" />
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
@@ -22,8 +23,11 @@
     <!-- Main 3D Container -->
     <div id="container3D"></div>
 
-    <!-- Title -->
+    <!-- Title dan Element Baru -->
     <div id="title">SISTEM TATA SURYA 3D</div>
+    <div id="subtitle">Eksplorasi Interaktif Alam Semesta</div>
+    <!-- Particles Container -->
+    <div class="title-particles" id="titleParticles"></div>
 
     <!-- Controls Info -->
     <div id="controlsInfo">
@@ -31,6 +35,7 @@
       <p>• <strong>Mouse Drag:</strong> Putar kamera</p>
       <p>• <strong>Scroll Wheel:</strong> Zoom in/out</p>
       <p>• <strong>Klik Planet:</strong> Lihat informasi</p>
+      <p>• <strong>Rotate Controls:</strong> Bawah kiri</p>
       <p>• <strong>Auto-rotate:</strong> Tekan 'R'</p>
     </div>
 
@@ -81,6 +86,58 @@
         <div class="fun-fact-title"><span>💡</span> Fakta Menarik</div>
         <div id="planetFunFact">Fakta menarik tentang planet...</div>
       </div>
+    </div>
+
+    <!-- Rotate Controls -->
+    <div id="rotateControls">
+      <h3>🔄 Kontrol Rotasi</h3>
+
+      <div class="rotate-buttons">
+        <button class="rotate-btn slow" data-speed="0.5">
+          <span class="rotate-icon">🐢</span>
+          <span class="rotate-label">LAMBAT</span>
+        </button>
+        <button class="rotate-btn medium" data-speed="1">
+          <span class="rotate-icon">🚶‍♂️</span>
+          <span class="rotate-label">NORMAL</span>
+        </button>
+        <button class="rotate-btn fast" data-speed="2">
+          <span class="rotate-icon">🚀</span>
+          <span class="rotate-label">CEPAT</span>
+        </button>
+        <button class="rotate-btn reverse" data-speed="-1">
+          <span class="rotate-icon">↩️</span>
+          <span class="rotate-label">BALIK</span>
+        </button>
+        <button class="rotate-btn stop" data-speed="0">
+          <span class="rotate-icon">⏹️</span>
+          <span class="rotate-label">BERHENTI</span>
+        </button>
+      </div>
+
+      <div class="speed-indicator">
+        <span class="speed-text">Kecepatan:</span>
+        <span class="speed-value" id="speedValue">NORMAL</span>
+      </div>
+
+      <div class="direction-indicator">
+        <span class="direction-text">Arah:</span>
+        <span class="direction-arrow" id="directionArrow">↻</span>
+        <span class="direction-value" id="directionValue">MAJU</span>
+      </div>
+
+      <div class="auto-rotate-toggle" id="autoRotateToggle">
+        <div class="toggle-label">
+          <span>🔄</span>
+          <span>Auto Rotate</span>
+        </div>
+        <div class="toggle-switch" id="toggleSwitch"></div>
+      </div>
+
+      <button class="pause-resume-btn" id="pauseResumeBtn">
+        <span>⏸️</span>
+        <span>JEDA SEMUA</span>
+      </button>
     </div>
 
     <script type="module" src="js/main.js"></script>
